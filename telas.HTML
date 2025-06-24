@@ -1,28 +1,44 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Slideshow Automático</title>
+  <title>Slide Show</title>
   <style>
-    body {
+    * {
       margin: 0;
-      background-color: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
       overflow: hidden;
+      background-color: black;
+      font-family: sans-serif;
     }
-    img {
-      max-width: 100%;
-      max-height: 100%;
-      position: absolute;
-      opacity: 0;
-      transition: opacity 1s ease-in-out;
+
+    #slideshow {
+      width: 100vw;
+      height: 100vh;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: background-image 1s ease-in-out;
     }
-    img.active {
-      opacity: 1;
-      z-index: 1;
+
+    #audio-container {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      z-index: 10;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    audio {
+      width: 300px;
     }
   </style>
 </head>
@@ -30,31 +46,42 @@
 
   <div id="slideshow"></div>
 
+  <!-- Áudio opcional -->
+  <div id="audio-container">
+    <audio controls autoplay loop>
+      <source src="audio.mp3" type="audio/mpeg">
+      Seu navegador não suporta áudio HTML5.
+    </audio>
+  </div>
+
   <script>
     const imagens = [
-      "imagens/foto1.jpg",
-      "imagens/foto2.jpg",
-      "imagens/foto3.jpg"
+      'foto1.jpg',
+      'foto2.jpg',
+      'foto3.jpg',
+      'foto4.jpg',
+      'foto5.jpg',
+      'foto6.jpg',
+      'foto7.jpg',
+      'foto8.jpg',
+      'foto9.jpg',
+      'foto10.jpg',
+      'foto11.jpg',
+      'foto12.jpg'
     ];
 
-    const container = document.getElementById('slideshow');
     let index = 0;
+    const intervalo = 60000; // 1 minuto
 
-    // Criar imagens dinamicamente
-    imagens.forEach((src, i) => {
-      const img = document.createElement('img');
-      img.src = src;
-      if (i === 0) img.classList.add('active');
-      container.appendChild(img);
-    });
+    function mostrarProximaImagem() {
+      const slideshow = document.getElementById('slideshow');
+      slideshow.style.backgroundImage = `url('${imagens[index]}')`;
+      index = (index + 1) % imagens.length;
+    }
 
-    const slides = container.querySelectorAll('img');
-
-    setInterval(() => {
-      slides[index].classList.remove('active');
-      index = (index + 1) % slides.length;
-      slides[index].classList.add('active');
-    }, 3000); // tempo entre imagens (3 segundos)
+    // Iniciar
+    mostrarProximaImagem();
+    setInterval(mostrarProximaImagem, intervalo);
   </script>
 
 </body>
