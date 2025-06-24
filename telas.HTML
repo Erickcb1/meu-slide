@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Slideshow Automático</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      position: absolute;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    img.active {
+      opacity: 1;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="slideshow"></div>
+
+  <script>
+    const imagens = [
+      "imagens/foto1.jpg",
+      "imagens/foto2.jpg",
+      "imagens/foto3.jpg"
+    ];
+
+    const container = document.getElementById('slideshow');
+    let index = 0;
+
+    // Criar imagens dinamicamente
+    imagens.forEach((src, i) => {
+      const img = document.createElement('img');
+      img.src = src;
+      if (i === 0) img.classList.add('active');
+      container.appendChild(img);
+    });
+
+    const slides = container.querySelectorAll('img');
+
+    setInterval(() => {
+      slides[index].classList.remove('active');
+      index = (index + 1) % slides.length;
+      slides[index].classList.add('active');
+    }, 3000); // tempo entre imagens (3 segundos)
+  </script>
+
+</body>
+</html>
